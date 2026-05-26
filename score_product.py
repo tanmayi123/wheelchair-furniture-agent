@@ -128,5 +128,12 @@ async def score_product(request: ScoreRequest):
     )
 
     import json
-    score_data = json.loads(message.content[0].text)
+    raw = message.content[0].text.strip()
+    if "```" in raw:
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    raw = raw.strip()
+    score_data = json.loads(raw)
+
     return score_data
